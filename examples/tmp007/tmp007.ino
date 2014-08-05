@@ -2,7 +2,7 @@
   This is an example for the TMP007 Barometric Pressure & Temp Sensor
 
   Designed specifically to work with the Adafruit TMP007 Breakout 
-  ----> https://www.adafruit.com/products/
+  ----> https://www.adafruit.com/products/2023
   
   These displays use I2C to communicate, 2 pins are required to  
   interface

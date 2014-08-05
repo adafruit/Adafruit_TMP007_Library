@@ -2,7 +2,7 @@
   This is a library for the TMP007 Temp Sensor
 
   Designed specifically to work with the Adafruit TMP007 Breakout 
-  ----> https://www.adafruit.com/products/1296
+  ----> https://www.adafruit.com/products/2023
 
   These displays use I2C to communicate, 2 pins are required to  
   interface
@@ -13,17 +13,6 @@
   Written by Limor Fried/Ladyada for Adafruit Industries.  
   BSD license, all text above must be included in any redistribution
  ****************************************************/
-
-/*
-#define TMP007_B0 -0.0000294
-#define TMP007_B1 -0.00000057
-#define TMP007_B2 0.00000000463
-#define TMP007_C2 13.4
-#define TMP007_TREF 298.15
-#define TMP007_A2 -0.00001678
-#define TMP007_A1 0.00175
-#define TMP007_S0 6.4  // * 10^-14
-*/
 
 #if (ARDUINO >= 100)
  #include "Arduino.h"
