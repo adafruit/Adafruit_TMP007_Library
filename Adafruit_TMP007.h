@@ -19,7 +19,10 @@
 #else
  #include "WProgram.h"
 #endif
-#include <Adafruit_Sensor.h>
+// During compilaton of example code this generated a cannot find  error
+// in Arduino IDE v 1.6.4 on Linux, adding the include for the sensor library
+// to the sketch using the Adafruit_TMP007_Library works in Arduino v1.6.4 IDE 
+//#include <Adafruit_Sensor.h>
 #include "Wire.h"
 
 // uncomment for debugging!

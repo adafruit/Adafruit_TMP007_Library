@@ -13,7 +13,8 @@
   Written by Limor Fried/Ladyada for Adafruit Industries.  
   BSD license, all text above must be included in any redistribution
  ****************************************************/
-
+// Adafruit Unified Sensor Library required
+#include <Adafruit_Sensor.h>
 #include <Wire.h>
 #include "Adafruit_TMP007.h"
 
