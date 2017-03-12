@@ -1,5 +1,5 @@
 /*************************************************** 
-  This is an example for the TMP007 Barometric Pressure & Temp Sensor
+  This is an example for the TMP007 Infrared Thermopile Sensor
 
   Designed specifically to work with the Adafruit TMP007 Breakout 
   ----> https://www.adafruit.com/products/2023
