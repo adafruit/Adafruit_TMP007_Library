@@ -53,7 +53,7 @@
 class Adafruit_TMP007  {
  public:
   Adafruit_TMP007(uint8_t addr = TMP007_I2CADDR);
-  boolean begin(uint8_t samplerate = TMP007_CFG_16SAMPLE);  // by default go highres
+  boolean begin(uint16_t samplerate = TMP007_CFG_16SAMPLE);  // by default go highres
 
   int16_t readRawDieTemperature(void);
   int16_t readRawVoltage(void);

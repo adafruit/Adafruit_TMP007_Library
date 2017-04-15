@@ -24,7 +24,7 @@ Adafruit_TMP007::Adafruit_TMP007(uint8_t i2caddr) {
 }
 
 
-boolean Adafruit_TMP007::begin(uint8_t samplerate) {
+boolean Adafruit_TMP007::begin(uint16_t samplerate) {
   Wire.begin();
 
   write16(TMP007_CONFIG, TMP007_CFG_MODEON | TMP007_CFG_ALERTEN | 
