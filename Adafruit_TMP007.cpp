@@ -43,6 +43,8 @@ bool Adafruit_TMP007::begin(uint16_t samplerate) {
 
   Adafruit_BusIO_Register config_reg =
       Adafruit_BusIO_Register(i2c_dev, TMP007_CONFIG, 2, MSBFIRST);
+  config_reg.write(TMP007_CFG_RESET);
+  delay(10);
   config_reg.write(TMP007_CFG_MODEON | TMP007_CFG_ALERTEN | TMP007_CFG_TRANSC |
                    samplerate);
 
@@ -60,6 +62,7 @@ bool Adafruit_TMP007::begin(uint16_t samplerate) {
 #endif
   if (did != 0x78)
     return false;
+
   return true;
 }
 
