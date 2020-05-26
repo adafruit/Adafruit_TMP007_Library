@@ -19,11 +19,23 @@
 //#define TESTDIE 0x0C78
 //#define TESTVOLT 0xFEED
 
+/**************************************************************************/
+/*!
+    @brief Constructor for TMP007 sensor object
+    @param i2caddr The I2C sensor address to use
+*/
+/**************************************************************************/
 Adafruit_TMP007::Adafruit_TMP007(uint8_t i2caddr) {
   i2c_dev = new Adafruit_I2CDevice(i2caddr);
 }
 
-
+/**************************************************************************/
+/*!
+    @brief Initialize I2C and connect to the TMP007 sensor
+    @param samplerate The value written to TMP007_CONFIG
+    @returns True if sensor found
+*/
+/**************************************************************************/
 bool Adafruit_TMP007::begin(uint16_t samplerate) {
   if (!i2c_dev || !i2c_dev->begin()) {
     return false;
@@ -49,8 +61,12 @@ bool Adafruit_TMP007::begin(uint16_t samplerate) {
   return true;
 }
 
-//////////////////////////////////////////////////////
-
+/**************************************************************************/
+/*!
+    @brief  Read the calibrated die temperature
+    @returns double The calculated temperature of the sensor itself
+*/
+/**************************************************************************/
 double Adafruit_TMP007::readDieTempC(void) {
    double Tdie = readRawDieTemperature();
    Tdie *= 0.03125; // convert to celsius
@@ -60,6 +76,12 @@ double Adafruit_TMP007::readDieTempC(void) {
    return Tdie;
 }
 
+/**************************************************************************/
+/*!
+    @brief  Read the calibrated object temperature
+    @returns double The calculated temperature of the object in front of sensor
+*/
+/**************************************************************************/
 double Adafruit_TMP007::readObjTempC(void) {
   Adafruit_BusIO_Register tobj_reg = 
     Adafruit_BusIO_Register(i2c_dev, TMP007_TOBJ, 2, MSBFIRST);
@@ -77,8 +99,12 @@ double Adafruit_TMP007::readObjTempC(void) {
    return Tobj;
 }
 
-
-
+/**************************************************************************/
+/*!
+    @brief  Read the raw, uncalibrated die temperature
+    @returns int16_t The raw data read from the TMP007_TDIE register
+*/
+/**************************************************************************/
 int16_t Adafruit_TMP007::readRawDieTemperature(void) {
   Adafruit_BusIO_Register tdie_reg = 
     Adafruit_BusIO_Register(i2c_dev, TMP007_TDIE, 2, MSBFIRST);
@@ -102,6 +128,12 @@ int16_t Adafruit_TMP007::readRawDieTemperature(void) {
   return raw;
 }
 
+/**************************************************************************/
+/*!
+    @brief  Read the raw, uncalibrated thermopile voltage
+    @returns int16_t The raw data read from the TMP007_VOBJ register
+*/
+/**************************************************************************/
 int16_t Adafruit_TMP007::readRawVoltage(void) {
   int16_t raw;
 

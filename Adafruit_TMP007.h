@@ -45,7 +45,11 @@
 #define TMP007_DEVID 0x1F
 
 
-
+/**************************************************************************/
+/*!
+    @brief The class for storing and communicating with TMP007 sensors
+*/
+/**************************************************************************/
 class Adafruit_TMP007  {
  public:
   Adafruit_TMP007(uint8_t addr = TMP007_I2CADDR);
