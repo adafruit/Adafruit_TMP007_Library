@@ -20,20 +20,28 @@
 //#define TESTVOLT 0xFEED
 
 Adafruit_TMP007::Adafruit_TMP007(uint8_t i2caddr) {
-  _addr = i2caddr;
+  i2c_dev = new Adafruit_I2CDevice(i2caddr);
 }
 
 
-boolean Adafruit_TMP007::begin(uint16_t samplerate) {
-  Wire.begin();
+bool Adafruit_TMP007::begin(uint16_t samplerate) {
+  if (!i2c_dev || !i2c_dev->begin()) {
+    return false;
+  }
 
-  write16(TMP007_CONFIG, TMP007_CFG_MODEON | TMP007_CFG_ALERTEN | 
-	  TMP007_CFG_TRANSC | samplerate);
-  write16(TMP007_STATMASK, TMP007_STAT_ALERTEN |TMP007_STAT_CRTEN);
+  Adafruit_BusIO_Register config_reg = 
+    Adafruit_BusIO_Register(i2c_dev, TMP007_CONFIG, 2, MSBFIRST);
+  config_reg.write(TMP007_CFG_MODEON | TMP007_CFG_ALERTEN | 
+                   TMP007_CFG_TRANSC | samplerate);
+
+  Adafruit_BusIO_Register stat_reg = 
+    Adafruit_BusIO_Register(i2c_dev, TMP007_STATMASK, 2, MSBFIRST);
+  stat_reg.write(TMP007_STAT_ALERTEN |TMP007_STAT_CRTEN);
   // enable conversion ready alert
 
-  uint16_t did;
-  did = read16(TMP007_DEVID);
+  Adafruit_BusIO_Register did_reg = 
+    Adafruit_BusIO_Register(i2c_dev, TMP007_DEVID, 2, MSBFIRST);
+  uint16_t did = did_reg.read();
 #ifdef TMP007_DEBUG
   Serial.print("did = 0x"); Serial.println(did, HEX);
 #endif
@@ -53,7 +61,10 @@ double Adafruit_TMP007::readDieTempC(void) {
 }
 
 double Adafruit_TMP007::readObjTempC(void) {
-  int16_t raw = read16(TMP007_TOBJ);
+  Adafruit_BusIO_Register tobj_reg = 
+    Adafruit_BusIO_Register(i2c_dev, TMP007_TOBJ, 2, MSBFIRST);
+
+  int16_t raw = tobj_reg.read();
   // invalid
   if (raw & 0x1) return NAN;
   raw >>=2;
@@ -69,7 +80,10 @@ double Adafruit_TMP007::readObjTempC(void) {
 
 
 int16_t Adafruit_TMP007::readRawDieTemperature(void) {
-  int16_t raw = read16(TMP007_TDIE);
+  Adafruit_BusIO_Register tdie_reg = 
+    Adafruit_BusIO_Register(i2c_dev, TMP007_TDIE, 2, MSBFIRST);
+
+  int16_t raw = tdie_reg.read();
 
 #if TMP007_DEBUG == 1
 
@@ -91,7 +105,9 @@ int16_t Adafruit_TMP007::readRawDieTemperature(void) {
 int16_t Adafruit_TMP007::readRawVoltage(void) {
   int16_t raw;
 
-  raw = read16(TMP007_VOBJ);
+  Adafruit_BusIO_Register vobj_reg = 
+    Adafruit_BusIO_Register(i2c_dev, TMP007_VOBJ, 2, MSBFIRST);
+  raw = vobj_reg.read();
 
 #if TMP007_DEBUG == 1
 
@@ -106,31 +122,5 @@ int16_t Adafruit_TMP007::readRawVoltage(void) {
   Serial.print(" ("); Serial.print(v); Serial.println(" uV)");
 #endif
   return raw; 
-}
-
-
-/*********************************************************************/
-
-uint16_t Adafruit_TMP007::read16(uint8_t a) {
-  uint16_t ret;
-
-  Wire.beginTransmission(_addr); // start transmission to device 
-  Wire.write(a); // sends register address to read from
-  Wire.endTransmission(); // end transmission
-  
-  Wire.requestFrom(_addr, (uint8_t)2);// send data n-bytes read
-  ret = Wire.read(); // receive DATA
-  ret <<= 8;
-  ret |= Wire.read(); // receive DATA
-
-  return ret;
-}
-
-void Adafruit_TMP007::write16(uint8_t a, uint16_t d) {
-  Wire.beginTransmission(_addr); // start transmission to device 
-  Wire.write(a); // sends register address to read from
-  Wire.write(d>>8);  // write data
-  Wire.write(d);  // write data
-  Wire.endTransmission(); // end transmission
 }
 

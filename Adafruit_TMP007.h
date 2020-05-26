@@ -14,12 +14,8 @@
   BSD license, all text above must be included in any redistribution
  ****************************************************/
 
-#if (ARDUINO >= 100)
- #include "Arduino.h"
-#else
- #include "WProgram.h"
-#endif
-#include "Wire.h"
+#include <Adafruit_I2CDevice.h>
+#include <Adafruit_BusIO_Register.h>
 
 // uncomment for debugging!
 //#define TMP007_DEBUG 1
@@ -53,7 +49,7 @@
 class Adafruit_TMP007  {
  public:
   Adafruit_TMP007(uint8_t addr = TMP007_I2CADDR);
-  boolean begin(uint16_t samplerate = TMP007_CFG_16SAMPLE);  // by default go highres
+  bool begin(uint16_t samplerate = TMP007_CFG_16SAMPLE);  // by default go highres
 
   int16_t readRawDieTemperature(void);
   int16_t readRawVoltage(void);
@@ -61,8 +57,6 @@ class Adafruit_TMP007  {
   double readDieTempC(void);
 
  private:
-  uint8_t _addr;
-  uint16_t read16(uint8_t addr);
-  void write16(uint8_t addr, uint16_t data);
+  Adafruit_I2CDevice *i2c_dev = NULL;
 };
 
