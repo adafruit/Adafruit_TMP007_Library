@@ -18,7 +18,7 @@
 #include <Adafruit_I2CDevice.h>
 
 // uncomment for debugging!
-//#define TMP007_DEBUG 1
+// #define TMP007_DEBUG 1
 
 #define TMP007_VOBJ 0x00
 #define TMP007_TDIE 0x01
@@ -50,16 +50,16 @@
 */
 /**************************************************************************/
 class Adafruit_TMP007 {
-public:
+ public:
   Adafruit_TMP007(uint8_t addr = TMP007_I2CADDR);
-  bool
-  begin(uint16_t samplerate = TMP007_CFG_16SAMPLE); // by default go highres
+  bool begin(
+      uint16_t samplerate = TMP007_CFG_16SAMPLE); // by default go highres
 
   int16_t readRawDieTemperature(void);
   int16_t readRawVoltage(void);
   double readObjTempC(void);
   double readDieTempC(void);
 
-private:
-  Adafruit_I2CDevice *i2c_dev = NULL;
+ private:
+  Adafruit_I2CDevice* i2c_dev = NULL;
 };
