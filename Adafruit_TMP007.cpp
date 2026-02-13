@@ -16,8 +16,8 @@
 
 #include "Adafruit_TMP007.h"
 
-//#define TESTDIE 0x0C78
-//#define TESTVOLT 0xFEED
+// #define TESTDIE 0x0C78
+// #define TESTVOLT 0xFEED
 
 /**************************************************************************/
 /*!
